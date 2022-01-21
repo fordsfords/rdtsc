@@ -26,13 +26,13 @@ int main(int argc, char **argv)
   double duration;
 
   rdtsc_calibrate();
-  printf("ticks_per_sec=%" PRId64 ".\n", ticks_per_sec);
+  printf("rdtsc_ticks_per_sec=%" PRId64 ".\n", rdtsc_ticks_per_sec);
 
   /* Test calibration. */
   RDTSC(start);
   usleep(1000);
   RDTSC(end);
-  duration = (double)(end - start) / (double)ticks_per_sec;
+  duration = (double)(end - start) / (double)rdtsc_ticks_per_sec;
   printf("1ms~=%" PRId64 " ticks (%f sec).\n", (end - start), duration);
 
   /* Measure duration of rdtsc. */

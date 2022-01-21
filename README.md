@@ -10,8 +10,8 @@ This is typically the number of ticks since the last CPU reset.
 Note that the value is not synchronized to "wall clock" time,
 nor is it calibrated to any particular time period.
 
-Also included in this project is a "calibration()" function, which empirically
-measures the timer tick frequency.
+Also included in this project is a function "rdtsc_calibrate()" function,
+which empirically measures the timer tick frequency.
 
 
 ## Usage
@@ -23,18 +23,20 @@ Let's see how long usleep(1000) *really* takes.
 
   uint64_t start_ticks, end_ticks;
 
-  rdtsc_calibrate();  /* Sets global varialbe ticks_per_sec. */
+  rdtsc_calibrate();  /* Sets global varialbe rdtsc_ticks_per_sec. */
 
   RDTSC(start_ticks);
   usleep(1000);
   RDTSC(end_ticks)
 
   printf("duration of usleep(1000) is %f sec.\n",
-      (double)(end_ticks - start_ticks) / (double)ticks_per_sec);
+      (double)(end_ticks - start_ticks) / (double)rdtsc_ticks_per_sec);
 ````
 
-The "rdtsc_calibrate()" function is in the "rdtsc.c" module.
+The "rdtsc_calibrate()" function is defined in the "rdtsc.c" module.
 The "RDTSC()" macro is defined in the "rdtsc.h" include file.
+The "rdtsc_ticks_per_sec" global varialbe is defined in the "rdtsc.c" module,
+and declared external in the "rdtsc.h" include file.
 
 
 ## Measurements
@@ -45,7 +47,7 @@ the output of the "rdtsc" program is:
 
 ````
 $ ./rdtsc
-ticks_per_sec=3789854845.
+rdtsc_ticks_per_sec=3789854845.
 1ms~=4022648 ticks (0.001061 sec).
 1m rdtsc=17577256 ns.
   17.577256 ns/rdtsc
@@ -60,7 +62,7 @@ Then again, on Mac, the story is different:
 
 ````
 % ./rdtsc
-ticks_per_sec=3093626031.
+rdtsc_ticks_per_sec=3093626031.
 1ms~=3324780 ticks (0.001075 sec).
 1m rdtsc=8854000 ns.
   8.854000 ns/rdtsc

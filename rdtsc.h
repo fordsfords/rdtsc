@@ -26,7 +26,7 @@ extern "C" {
 
 
 /* Global (set by rdtsc_calibrate()). */
-extern uint64_t ticks_per_sec;
+extern uint64_t rdtsc_ticks_per_sec;
 
 void rdtsc_calibrate();
 

@@ -17,7 +17,7 @@
 #include "rdtsc.h"
 
 
-uint64_t ticks_per_sec = 0;
+uint64_t rdtsc_ticks_per_sec = 0;
 
 void rdtsc_calibrate()
 {
@@ -43,5 +43,5 @@ void rdtsc_calibrate()
   duration_ns = end_ns - start_ns;
   duration_ticks = end_ticks - start_ticks;
   /* sec * ns/sec * ticks/ns = ticks. */
-  ticks_per_sec = (UINT64_C(1000000000) * duration_ticks) / duration_ns;
+  rdtsc_ticks_per_sec = (UINT64_C(1000000000) * duration_ticks) / duration_ns;
 }  /* rdtsc_calibrate */
