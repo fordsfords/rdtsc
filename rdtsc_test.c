@@ -20,26 +20,23 @@
 
 int main(int argc, char **argv)
 {
-  uint64_t start;
-  uint64_t end;
-  int i;
-  double duration;
-
   rdtsc_calibrate();
-  printf("rdtsc_ticks_per_sec=%" PRId64 ".\n", rdtsc_ticks_per_sec);
+  printf("rdtsc_ticks_per_sec=%"PRIu64".\n", rdtsc_ticks_per_sec);
 
   /* Test calibration. */
+  uint64_t start, end;
   RDTSC(start);
   usleep(1000);
   RDTSC(end);
-  duration = (double)(end - start) / (double)rdtsc_ticks_per_sec;
-  printf("1ms~=%" PRId64 " ticks (%f sec).\n", (end - start), duration);
+  double duration = (double)(end - start) / (double)rdtsc_ticks_per_sec;
+  printf("1ms~=%"PRIu64" ticks (%f sec).\n", (end - start), duration);
 
   /* Measure duration of rdtsc. */
   struct timespec start_ts;
   struct timespec end_ts;
   uint64_t start_ns, end_ns;
   clock_gettime(CLOCK_MONOTONIC, &start_ts);
+  int i;
   for (i = 0; i < 1000000; ++i) {
     RDTSC(end);
   }
@@ -49,7 +46,7 @@ int main(int argc, char **argv)
   end_ns = (uint64_t)end_ts.tv_sec * UINT64_C(1000000000)
       + (uint64_t)end_ts.tv_nsec;
   duration = (double)(end_ns - start_ns) / 1000000000.0;
-  printf("1m rdtsc=%" PRId64 " ns.\n", (end_ns - start_ns));
+  printf("1m rdtsc=%"PRIu64" ns.\n", (end_ns - start_ns));
   printf("  %f ns/rdtsc\n", duration * 1000.0);
 
   /* Measure duration of clock_gettime(). */
@@ -63,7 +60,7 @@ int main(int argc, char **argv)
   end_ns = (uint64_t)end_ts.tv_sec * UINT64_C(1000000000)
       + (uint64_t)end_ts.tv_nsec;
   duration = (double)(end_ns - start_ns) / 1000000000.0;
-  printf("1m clock_gettime=%" PRId64 " ns.\n", (end_ns - start_ns));
+  printf("1m clock_gettime=%"PRIu64" ns.\n", (end_ns - start_ns));
   printf("  %f ns/clock_gettime\n", duration * 1000.0);
  
   return 0;

@@ -63,25 +63,27 @@ which empirically measures the timer tick frequency.
 
 ## USAGE
 
-Let's see how long usleep(1000) *really* takes.
+Here's a fragment from "rdtsc_test.c" to measure
+how long usleep(1000) takes.
 
 ````C
-  uint64_t start_ticks, end_ticks;
-
-  rdtsc_calibrate();  /* Sets global varialbe rdtsc_ticks_per_sec. */
-
-  RDTSC(start_ticks);
+  rdtsc_calibrate();
+...
+  uint64_t start, end;
+  RDTSC(start);
   usleep(1000);
-  RDTSC(end_ticks)
-
-  printf("duration of usleep(1000) is %f sec.\n",
-      (double)(end_ticks - start_ticks) / (double)rdtsc_ticks_per_sec);
+  RDTSC(end);
+  double duration = (double)(end - start) / (double)rdtsc_ticks_per_sec;
+  printf("1ms~=%"PRIu64" ticks (%f sec).\n", (end - start), duration);
 ````
 
-The "rdtsc_calibrate()" function is defined in the "rdtsc.c" module.
-The "RDTSC()" macro is defined in the "rdtsc.h" include file.
-The "rdtsc_ticks_per_sec" global varialbe is defined in the "rdtsc.c" module,
+* The "rdtsc_calibrate()" function is defined in the "rdtsc.c" module.
+It's purpose is to set the global "rdtsc_ticks_per_sec", which can
+subsequently be used to convert ticks to time.
+The calibration sleeps for 2 milliseconds and uses "clock_gettime()".
+* The "rdtsc_ticks_per_sec" global variable is defined in the "rdtsc.c" module,
 and declared external in the "rdtsc.h" include file.
+* The "RDTSC()" macro is defined in the "rdtsc.h" include file.
 
 ## MEASUREMENTS
 
