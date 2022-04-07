@@ -1,23 +1,24 @@
-# rdtsc
+# rdtsc - fast timestamps
+
 C module to demonstrate getting low-impact time stamps using
 x86 assembly language.
 
-# Table of contents 
+## TABLE OF CONTENTS 
 
-- [rdtsc](#rdtsc)
-- [Table of contents](#table-of-contents)
-- [COPYRIGHT AND LICENSE](#copyright-and-license)
-- [REPOSITORY](#repository)
-- [DEPENDENCIES](#dependencies)
-- [INTRODUCTION](#introduction)
-- [USAGE](#usage)
-- [MEASUREMENTS](#measurements)
-- [RDTSC STATEMENT CONSIDERED HARMFUL](#rdtsc-statement-considered-harmful)
-- [PRECISION VS ACCURACY](#precision-vs-accuracy)
+- [rdtsc - fast timestamps](#rdtsc---fast-timestamps)
+  - [TABLE OF CONTENTS](#table-of-contents)
+  - [COPYRIGHT AND LICENSE](#copyright-and-license)
+  - [REPOSITORY](#repository)
+  - [DEPENDENCIES](#dependencies)
+  - [INTRODUCTION](#introduction)
+  - [USAGE](#usage)
+  - [MEASUREMENTS](#measurements)
+  - [RDTSC STATEMENT CONSIDERED HARMFUL](#rdtsc-statement-considered-harmful)
+  - [PRECISION VS ACCURACY](#precision-vs-accuracy)
 
 <sup>(table of contents from https://luciopaiva.com/markdown-toc/)</sup>
 
-# COPYRIGHT AND LICENSE
+## COPYRIGHT AND LICENSE
 
 I want there to be NO barriers to using this code, so I am releasing it to the public domain.
 But "public domain" does not have an internationally agreed-upon definition, so I use CC0:
@@ -36,18 +37,18 @@ is https://github.com/fordsfords/rdtsc
 To contact me, Steve Ford, project owner, you can find my email address
 at http://geeky-boy.com.  Can't see it?  Keep looking.
 
-# REPOSITORY
+## REPOSITORY
 
 See https://github.com/fordsfords/rdtsc for code and documentation.
 
-# DEPENDENCIES
+## DEPENDENCIES
 
-The core module (rdtsc.c) does not depend on other modules.
+The core module ("rdtsc.c") does not depend on other modules.
 
 However, the "rdtsc_hist.c" example program depends on:
 * https://github.com/fordsfords/hist - fast histogrammer.
 
-# INTRODUCTION
+## INTRODUCTION
 
 The "RDTSC()" macro invokes the rdtsc assembly language instruction,
 which basically transfers the contents of the CPU's internal clock counter
@@ -60,7 +61,7 @@ nor is it calibrated to any particular time period.
 Also included in this project is a function "rdtsc_calibrate()" function,
 which empirically measures the timer tick frequency.
 
-# USAGE
+## USAGE
 
 Let's see how long usleep(1000) *really* takes.
 
@@ -82,7 +83,7 @@ The "RDTSC()" macro is defined in the "rdtsc.h" include file.
 The "rdtsc_ticks_per_sec" global varialbe is defined in the "rdtsc.c" module,
 and declared external in the "rdtsc.h" include file.
 
-# MEASUREMENTS
+## MEASUREMENTS
 
 Linux:
 
@@ -116,7 +117,7 @@ and rdtsc is noticeably faster.
 To be fair, clock_gettime(CLOCK_MONOTONIC) is not the fastest way to get
 high-resolution time on Mac; see [my notes](https://github.com/fordsfords/fordsfords.github.io/wiki/Timing-software#Conclusions).
 
-# RDTSC STATEMENT CONSIDERED HARMFUL
+## RDTSC STATEMENT CONSIDERED HARMFUL
 
 There are risks in using the rdtsc instruction for timing measurements,
 especially on older hardware.
@@ -135,7 +136,7 @@ performance.
 In my opinion, in 2022, using reasonably modern hardware
 in a non-virtualized environment, you should be pretty safe using rdtsc.
 
-# PRECISION VS ACCURACY
+## PRECISION VS ACCURACY
 
 Let's look at the actual values returned by rdtsc.
 ````
